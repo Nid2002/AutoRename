@@ -8,8 +8,6 @@
   <strong>Smart File Renaming</strong>
 </p>
 
-[Python] [Windows] [Linux] [MIT] [Open-Source]
-
 <p align="center">
   🇧🇷 <a href="README.pt-BR.md">Português</a>
 </p>
@@ -25,13 +23,13 @@ Originally created to solve real-world document workflows, the project focuses o
 
 ## ✨ Features
 
-📄 Intelligent document-based renaming
-🛡️ Dry Run mode for safe testing
-⚙️ Configurable behavior
-📝 Detailed execution logs
-⚡ Fast batch processing
-💻 Windows and Linux support
-📦 Standalone executables
+- 📄 Intelligent document-based renaming
+- ⚡ Fast batch processing
+- 🛡️ Dry Run mode for safe testing
+- 📝 Detailed execution logs
+- ⚙️ Configurable behavior
+- 💻 Windows and Linux support
+- 📦 Standalone executables
 ---
 
 ## 📸 Screenshots
