@@ -6,7 +6,9 @@ import pdfplumber
 from config import (
     PREFIXOS_CONDOMINIO,
     TIPOS_UNIDADE,
+    TIPOS_BLOCO,
     ALIAS_CONDOMINIOS,
+    DELIMITADORES_UNIDADE,
 )
 
 from boleto import Boleto
@@ -110,7 +112,114 @@ def extrair_dados(texto):
 
     return dados
 
+# ======================================================
+# FUNÇÕES AUXILIARES
+# ======================================================
 
+def _normalizar_token(token):
+    """
+    Remove pontuação das extremidades e converte para maiúsculas.
+    """
+
+    return token.strip(" ,.;:-_/\\()[]{}").upper()
+
+def _eh_inicio_bloco(token):
+    """
+    Verifica se o token pode iniciar
+    um identificador de bloco.
+    """
+
+    return token.upper() in TIPOS_BLOCO
+
+def _token_eh_bloco(token):
+
+    token = _normalizar_token(token)
+
+    return _eh_inicio_bloco(token)
+
+def _coletar_contexto_unidade(partes, indice_tipo):
+    """
+    Coleta o contexto da unidade.
+
+    Retorna um dicionário contendo os tokens
+    antes e depois do tipo da unidade.
+    """
+
+    antes = []
+
+    for token in partes[:indice_tipo]:
+
+        token_normalizado = _normalizar_token(token)
+
+        if token_normalizado:
+            antes.append(token_normalizado)
+
+    depois = []
+
+    for token in partes[indice_tipo + 1:]:
+
+        token_normalizado = _normalizar_token(token)
+
+        if token_normalizado in DELIMITADORES_UNIDADE:
+            break
+
+        if token_normalizado:
+            depois.append(token_normalizado)
+
+    return {
+        "antes": antes,
+        "depois": depois,
+    }
+
+def _interpretar_bloco(antes, depois, indice_unidade):
+
+    bloco_tokens = []
+
+    #
+    # Tokens antes do tipo de unidade
+    #
+    if antes:
+        bloco_tokens.extend(antes)
+
+    #
+    # Tokens entre o tipo da unidade e o número
+    #
+    if indice_unidade > 0:
+        bloco_tokens.extend(depois[:indice_unidade])
+
+    if not bloco_tokens:
+        return None
+
+    bloco = " ".join(bloco_tokens).strip()
+
+    return bloco
+
+def _interpretar_tokens_unidade(contexto):
+
+    antes = contexto["antes"]
+    depois = contexto["depois"]
+
+    indice_unidade = None
+
+    for i in range(len(depois) - 1, -1, -1):
+
+        if depois[i].isdigit():
+
+            indice_unidade = i
+            break
+
+    if indice_unidade is None:
+        return None
+
+    unidade = depois[indice_unidade]
+
+    bloco = _interpretar_bloco(
+        antes,
+        depois,
+        indice_unidade,
+    )
+
+    return bloco, unidade
 # ======================================================
 # CONDOMÍNIO
 # ======================================================
@@ -187,28 +296,31 @@ def detectar_unidade(linha):
 
     for i, palavra in enumerate(partes):
 
-        if palavra.upper() in TIPOS_UNIDADE:
+        if palavra.upper() not in TIPOS_UNIDADE:
+            continue
 
-            debug_secao("Unidade")
+        debug_secao("Unidade")
 
-            bloco = None
-            unidade = None
+        contexto = _coletar_contexto_unidade(partes, i)
 
-            if i > 0:
-                bloco = partes[i - 1]
+        resultado = _interpretar_tokens_unidade(contexto)
 
-            if i + 1 < len(partes):
-                unidade = partes[i + 1]
+        if resultado is None:
+            return None
 
-            debug(f"Linha..........: {linha}")
-            debug(f"Tipo...........: {palavra}")
-            debug(f"Bloco..........: {bloco or '-'}")
-            debug(f"Unidade........: {unidade}")
+        bloco, unidade = resultado
 
-            return bloco, unidade
+        debug(f"Linha..........: {linha}")
+        debug(f"Partes.........: {partes}")
+        debug(f"Tipo...........: {palavra}")
+        debug(f"Antes..........: {contexto['antes']}")
+        debug(f"Depois.........: {contexto['depois']}")
+        debug(f"Bloco..........: {bloco or '-'}")
+        debug(f"Unidade........: {unidade}")
+
+        return bloco, unidade
 
     return None
-
 
 # ======================================================
 # VENCIMENTO

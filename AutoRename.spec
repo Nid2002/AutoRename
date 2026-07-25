@@ -1,38 +1,44 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from pathlib import Path
 from PyInstaller.utils.hooks import collect_all
 
+# ==========================================================
+# Configurações
+# ==========================================================
+
+ICON = "icon.ico" if Path("icon.ico").exists() else None
+
 datas = [
-    ('config.ini', '.'),
+    ("config.ini", "."),
 ]
 
 binaries = []
-
 hiddenimports = []
 
-tmp = collect_all('pdfplumber')
-datas += tmp[0]
-binaries += tmp[1]
-hiddenimports += tmp[2]
+# ==========================================================
+# Bibliotecas que precisam ser coletadas
+# ==========================================================
 
-tmp = collect_all('pdfminer')
-datas += tmp[0]
-binaries += tmp[1]
-hiddenimports += tmp[2]
+for pacote in (
+    "pdfplumber",
+    "pdfminer",
+    "PIL",
+    "pypdfium2",
+):
 
-tmp = collect_all('PIL')
-datas += tmp[0]
-binaries += tmp[1]
-hiddenimports += tmp[2]
+    tmp = collect_all(pacote)
 
-tmp = collect_all('pypdfium2')
-datas += tmp[0]
-binaries += tmp[1]
-hiddenimports += tmp[2]
+    datas += tmp[0]
+    binaries += tmp[1]
+    hiddenimports += tmp[2]
 
+# ==========================================================
+# Análise
+# ==========================================================
 
 a = Analysis(
-    ['src/main.py'],
+    ["src/main.py"],
     pathex=[],
     binaries=binaries,
     datas=datas,
@@ -44,7 +50,15 @@ a = Analysis(
     noarchive=False,
 )
 
+# ==========================================================
+# Python bytecode
+# ==========================================================
+
 pyz = PYZ(a.pure)
+
+# ==========================================================
+# Executável
+# ==========================================================
 
 exe = EXE(
     pyz,
@@ -52,11 +66,11 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='AutoRename',
+    name="AutoRename",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
     console=True,
-    icon='icon.ico',
+    icon=ICON,
 )

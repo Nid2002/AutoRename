@@ -1,15 +1,4 @@
 """
-=============================================================
-AutoRename Phoenix
-Versão : 1.0.0
-Autor  : Nicolas Alves Oliveira
-Ano    : 2026
-=============================================================
-
-"""
-
-
-"""
 config.py
 
 Responsável por:
@@ -28,7 +17,7 @@ import sys
 # ==========================================================
 
 APP_NAME = "AutoRename"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 APP_AUTHOR = "Nic0las"
 
 # ==========================================================
@@ -36,27 +25,25 @@ APP_AUTHOR = "Nic0las"
 # ==========================================================
 
 #
-# Quando executado pelo PyInstaller (--onefile),
-# o executável fica em dist/ e o config.ini deve
-# estar na mesma pasta do .exe.
+# Diretório raiz da aplicação
 #
+# Desenvolvimento:
+#   AutoRename/
+#       config.ini
+#       src/
+#
+# Executável:
+#   AutoRename.exe
+#   config.ini
+#
+
 if getattr(sys, "frozen", False):
 
     ROOT_DIR = Path(sys.executable).resolve().parent
 
-#
-# Execução normal pelo Python
-#
 else:
 
-    BASE_DIR = Path(__file__).resolve().parent
-
-    # Assume que config.py está dentro de src/
-    ROOT_DIR = BASE_DIR.parent
-
-    # Compatibilidade caso o projeto esteja sem a pasta src/
-    if not (ROOT_DIR / "config.ini").exists():
-        ROOT_DIR = BASE_DIR
+    ROOT_DIR = Path(__file__).resolve().parent.parent
 
 CONFIG_FILE = ROOT_DIR / "config.ini"
 
@@ -93,12 +80,18 @@ def carregar_lista(secao: str) -> list[str]:
 
 def caminho_config(chave: str) -> Path:
     """
-    Retorna um caminho absoluto baseado na seção [GERAL].
+    Retorna um caminho baseado na seção [GERAL].
+
+    - Caminhos relativos são interpretados a partir da raiz do projeto.
+    - Caminhos absolutos são utilizados exatamente como informados.
     """
 
-    return ROOT_DIR / config["GERAL"][chave]
+    caminho = Path(config["GERAL"][chave]).expanduser()
 
+    if caminho.is_absolute():
+        return caminho.resolve()
 
+    return (ROOT_DIR / caminho).resolve()
 # ==========================================================
 # Diretórios da aplicação
 # ==========================================================
@@ -162,11 +155,55 @@ TIPOS_UNIDADE = carregar_lista(
     "UNIDADES"
 )
 
-TIPOS_BLOCO = carregar_lista(
-    "BLOCOS"
-)
+#
+# Tipos de bloco
+#
+
+if config.has_section("BLOCOS"):
+
+    TIPOS_BLOCO = {
+        valor.strip().upper()
+        for valor in config["BLOCOS"].values()
+    }
+
+else:
+
+    TIPOS_BLOCO = {
+        "BL",
+        "BLOCO",
+        "CS",
+        "TE",
+    }
 
 PALAVRAS_PARADA_CONDOMINIO = [
     palavra.strip()
     for palavra in config["FILTROS"]["PALAVRAS_PARADA"].split(",")
+
 ]
+
+# Delimitadores que indicam o fim das informações da unidade
+
+if config.has_section("DELIMITADORES_UNIDADE"):
+
+    DELIMITADORES_UNIDADE = {
+        valor.strip().upper()
+        for valor in config["DELIMITADORES_UNIDADE"].values()
+    }
+
+else:
+
+    # Valores padrão (compatibilidade)
+
+    DELIMITADORES_UNIDADE = {
+        "ID",
+        "CPF",
+        "CNPJ",
+        "CEP",
+        "RUA",
+        "AV",
+        "AVENIDA",
+        "Nº",
+        "NUMERO",
+        "BANCO",
+        "PIX",
+    }

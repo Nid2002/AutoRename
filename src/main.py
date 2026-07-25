@@ -1,15 +1,5 @@
 # main.py
-"""
-=============================================================
-AutoRename Phoenix
-Versão : 1.0.0
-Autor  : Nicolas Alves Oliveira
-Ano    : 2026
-=============================================================
 
-Renomeador automático de boletos em PDF.
-
-"""
 from boleto import Boleto
 
 from config import PASTA_ENTRADA
