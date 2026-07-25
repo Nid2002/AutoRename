@@ -2,12 +2,17 @@
   <img src="assets/banner.png" alt="AutoRename Banner">
 </p>
 
-# AutoRename
+<h1 align="center">AutoRename</h1>
 
-> **Smart File Renaming**
+<p align="center">
+  <strong>Smart File Renaming</strong>
+</p>
 
-🇧🇷 **Português:** [README.pt-BR.md](README.pt-BR.md)
+[Python] [Windows] [Linux] [MIT] [Open-Source]
 
+<p align="center">
+  🇧🇷 <a href="README.pt-BR.md">Português</a>
+</p>
 ---
 
 ## About
@@ -20,10 +25,66 @@ Originally created to solve real-world document workflows, the project focuses o
 
 ## ✨ Features
 
-- 📄 Intelligent document-based renaming
-- ⚡ Fast batch processing
-- 🛡️ Dry Run mode for safe testing
-- 📝 Detailed execution logs
-- ⚙️ Configurable behavior
-- 💻 Windows and Linux support
-- 📦 Standalone executables
+📄 Intelligent document-based renaming
+🛡️ Dry Run mode for safe testing
+⚙️ Configurable behavior
+📝 Detailed execution logs
+⚡ Fast batch processing
+💻 Windows and Linux support
+📦 Standalone executables
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <i>## 📸 Screenshots
+
+Screenshots are intentionally omitted because the application is currently used with real-world confidential documents.
+
+A public demonstration dataset and screenshots may be added in future releases.</i>
+</p>
+
+---
+
+## 🚀 Installation
+
+### Download Executable
+
+Download the latest executable from the **Releases** page.
+
+### Run from Source
+
+```bash
+git clone https://github.com/Nid2002/AutoRename.git
+
+cd AutoRename
+
+pip install -r requirements.txt
+
+python src/main.py
+```
+
+---
+
+## 🛠️ Build from Source
+
+AutoRename uses **PyInstaller** to generate standalone executables.
+The generated executable will be available inside the `dist/` directory.
+
+```bash
+pyinstaller AutoRename.spec
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions, suggestions, bug reports and feature requests are always welcome.
+Feel free to open an issue or submit a pull request.
+If you have ideas for improvements, feel free to open an issue.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
