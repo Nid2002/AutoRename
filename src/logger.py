@@ -1,5 +1,6 @@
 import logging
 
+from pathlib import Path
 from datetime import datetime
 
 from constants import (
@@ -12,6 +13,10 @@ from config import (
     LOG_FILE,
     DEBUG,
 )
+
+PASTA_LOGS_PATH = Path(PASTA_LOGS)
+
+PASTA_LOGS_PATH.mkdir(parents=True, exist_ok=True)
 
 logging.basicConfig(
     filename=LOG_FILE,
