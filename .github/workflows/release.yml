@@ -9,9 +9,7 @@ permissions:
   contents: write
 
 jobs:
-
   release:
-
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
@@ -19,7 +17,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -38,26 +35,60 @@ jobs:
         run: |
           pyinstaller AutoRename.spec --noconfirm
 
+      # ------------------------
+      # Linux package
+      # ------------------------
+
+      - name: Prepare package (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mkdir "$RUNNER_TEMP/package"
+          cp dist/AutoRename "$RUNNER_TEMP/package/"
+          cp config.ini "$RUNNER_TEMP/package/"
+          cp QUICK_START.txt "$RUNNER_TEMP/package/"
+
       - name: Create ZIP (Linux)
         if: runner.os == 'Linux'
         run: |
-          cd dist
-          zip -r AutoRename-Linux.zip *
+          cd "$RUNNER_TEMP/package"
+          zip -r "$GITHUB_WORKSPACE/AutoRename-Linux.zip" .
+
+      # ------------------------
+      # Windows package
+      # ------------------------
+
+      - name: Prepare package (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path "$env:RUNNER_TEMP\package" -Force
+
+          Copy-Item dist\AutoRename.exe "$env:RUNNER_TEMP\package\"
+          Copy-Item config.ini "$env:RUNNER_TEMP\package\"
+          Copy-Item QUICK_START.txt "$env:RUNNER_TEMP\package\"
 
       - name: Create ZIP (Windows)
         if: runner.os == 'Windows'
         shell: powershell
         run: |
-          Compress-Archive -Path dist\* -DestinationPath AutoRename-Windows.zip
+          Compress-Archive `
+            -Path "$env:RUNNER_TEMP\package\*" `
+            -DestinationPath "$env:GITHUB_WORKSPACE\AutoRename-Windows.zip"
+
+      # ------------------------
+      # Upload Release
+      # ------------------------
 
       - name: Upload Release Asset (Linux)
         if: runner.os == 'Linux'
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/AutoRename-Linux.zip
+          files: AutoRename-Linux.zip
+          generate_release_notes: true
 
       - name: Upload Release Asset (Windows)
         if: runner.os == 'Windows'
         uses: softprops/action-gh-release@v2
         with:
           files: AutoRename-Windows.zip
+          generate_release_notes: true
