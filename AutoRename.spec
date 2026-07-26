@@ -1,13 +1,26 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+"""
+PyInstaller specification for AutoRename.
+
+Defines how standalone executables are generated
+for Windows and Linux.
+
+Used both locally and by GitHub Actions.
+"""
+
 from pathlib import Path
 from PyInstaller.utils.hooks import collect_all
 
 # ==========================================================
-# Configurações
+# AutoRename v1.0.0
+# PyInstaller Specification
 # ==========================================================
 
-ICON = "icon.ico" if Path("icon.ico").exists() else None
+ICON = "assets/icon.ico"
+
+if not Path(ICON).exists():
+    ICON = None
 
 datas = [
     ("config.ini", "."),
@@ -17,21 +30,22 @@ binaries = []
 hiddenimports = []
 
 # ==========================================================
-# Bibliotecas que precisam ser coletadas
+# Pacotes que precisam ser coletados
 # ==========================================================
 
-for pacote in (
+PACOTES = (
     "pdfplumber",
     "pdfminer",
     "PIL",
     "pypdfium2",
-):
+)
 
-    tmp = collect_all(pacote)
+for pacote in PACOTES:
+    d, b, h = collect_all(pacote)
 
-    datas += tmp[0]
-    binaries += tmp[1]
-    hiddenimports += tmp[2]
+    datas += d
+    binaries += b
+    hiddenimports += h
 
 # ==========================================================
 # Análise
@@ -39,7 +53,7 @@ for pacote in (
 
 a = Analysis(
     ["src/main.py"],
-    pathex=[],
+    pathex=["."],
     binaries=binaries,
     datas=datas,
     hiddenimports=hiddenimports,
@@ -51,7 +65,7 @@ a = Analysis(
 )
 
 # ==========================================================
-# Python bytecode
+# Bytecode Python
 # ==========================================================
 
 pyz = PYZ(a.pure)
@@ -70,7 +84,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     console=True,
     icon=ICON,
 )
