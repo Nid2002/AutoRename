@@ -25,8 +25,8 @@ The format is inspired by *Keep a Changelog*, and this project follows Semantic 
 
 ### Documentation
 
+- Added bilingual documentation (English and Portuguese)
 - Added project banner
-- Added bilingual README files
-- Organized repository structure
+- Improved repository organization
 
 ---
