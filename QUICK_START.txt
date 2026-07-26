@@ -1,0 +1,49 @@
+=================================================
+AutoRename v1.0.0
+=================================================
+
+ENGLISH
+
+Thank you for downloading AutoRename!
+
+Quick Start
+
+1. Open config.ini.
+2. Set the input folder:
+
+   PASTA_ENTRADA=C:\Your\PDF\Folder
+
+3. Save the file.
+4. Run AutoRename.
+5. Your PDF files will be renamed automatically.
+
+-------------------------------------------------
+
+PORTUGUÊS (BRASIL)
+
+Obrigado por baixar o AutoRename!
+
+Início Rápido
+
+1. Abra o arquivo config.ini.
+2. Configure a pasta de entrada:
+
+   PASTA_ENTRADA=C:\Sua\Pasta\PDF
+
+3. Salve o arquivo.
+4. Execute o AutoRename.
+5. Os arquivos PDF serão renomeados automaticamente.
+
+-------------------------------------------------
+*OBS: Caso queira simular como irá ficar o nome novo do arquivo. No arquivo "config.ini" existe uma opção chamada DRY_RUN, por padrão estará como "False" com isso ele renomeia automáticamente quando executado o AutoRename.exe , mas para ativar a simulação mude de "False" para "True" e assim os arquivos não serão renomeados, mas apareceram como ficariam caso tivesse no DRY_RUN = FALSE.
+
+Duvídas no codigo fonte possui o README.md em ingles e português com todas insruções.
+--------------------------------------------------------------------------------
+GitHub
+
+https://github.com/Nid2002/AutoRename
+
+AutoRename v1.0.0
+Copyright (c) 2026 Nid2002
+
+Licensed under the MIT License.
