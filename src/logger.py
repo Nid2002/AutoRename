@@ -1,17 +1,11 @@
-"""
-=============================================================
-AutoRename Phoenix
-Versão : 1.0.0
-Autor  : Nicolas Alves Oliveira
-Ano    : 2026
-=============================================================
-
-"""
-
-
 import logging
 
 from datetime import datetime
+
+from constants import (
+    APP_NOME,
+    APP_VERSAO,
+)
 
 from config import (
     PASTA_LOGS,
@@ -37,14 +31,13 @@ logger = logging.getLogger("AutoRename")
 def iniciar_log():
 
     logger.info("=" * 60)
-    logger.info("AutoRename Phoenix")
-    logger.info("Versão.....: 1.0.0")
+    logger.info(APP_NOME)
+    logger.info(f"Versão.....: {APP_VERSAO}")
     logger.info(
         f"Iniciado em: {datetime.now():%d/%m/%Y %H:%M:%S}"
     )
     logger.info("=" * 60)
     logger.info("")
-
 
 def finalizar_log():
 

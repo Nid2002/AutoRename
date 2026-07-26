@@ -53,6 +53,23 @@ def extrair_dados(texto):
 
     linhas = texto.splitlines()
 
+    #
+    # Linhas extraídas do documento
+    #
+
+    debug_secao("Linhas Extraídas")
+
+    for i, linha in enumerate(linhas, start=1):
+
+        linha = linha.strip()
+
+        if linha:
+            debug(f"[{i:02}] {linha}")
+
+    #
+    # Processamento das linhas
+    #
+
     for linha in linhas:
 
         linha = linha.strip()
@@ -69,7 +86,10 @@ def extrair_dados(texto):
             condominio = detectar_condominio(linha)
 
             if condominio:
+
                 dados.condominio = condominio
+
+                debug(f"✓ Condomínio encontrado: {condominio}")
 
         # --------------------------
         # BLOCO / UNIDADE
@@ -86,6 +106,9 @@ def extrair_dados(texto):
                 dados.bloco = bloco
                 dados.unidade = unidade
 
+                debug(f"✓ Bloco encontrado.....: {bloco or '-'}")
+                debug(f"✓ Unidade encontrada...: {unidade}")
+
         #
         # Já encontrou tudo que depende da leitura linha a linha
         #
@@ -99,6 +122,14 @@ def extrair_dados(texto):
 
     dados.vencimento = detectar_vencimento(texto)
 
+    if dados.vencimento:
+
+        debug(f"✓ Vencimento encontrado: {dados.vencimento}")
+
+    else:
+
+        debug("⚠ Vencimento não encontrado.")
+
     #
     # Resumo da extração
     #
@@ -110,8 +141,10 @@ def extrair_dados(texto):
     debug(f"Unidade........: {dados.unidade or '-'}")
     debug(f"Vencimento.....: {dados.vencimento or '-'}")
 
-    return dados
+    if dados.nome_arquivo:
+        debug(f"Nome Final.....: {dados.nome_arquivo}")
 
+    return dados
 # ======================================================
 # FUNÇÕES AUXILIARES
 # ======================================================

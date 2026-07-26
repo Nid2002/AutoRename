@@ -23,12 +23,13 @@ from renamer import Renamer
 from validator import arquivo_ja_renomeado
 
 from logger import (
+    iniciar_log,
+    finalizar_log,
     registrar_info,
     registrar_processamento,
     registrar_ignorado,
     registrar_excecao,
 )
-
 
 renamer = Renamer()
 
@@ -133,20 +134,18 @@ def processar_pdf(pdf):
 
 def main():
 
-    registrar_info(SEPARADOR)
-    registrar_info(f"{APP_NOME} v{APP_VERSAO} iniciado.")
-    registrar_info(SEPARADOR)
+    iniciar_log()
 
     arquivos = sorted(
         PASTA_ENTRADA.glob(EXTENSAO_PDF)
     )
 
     if not arquivos:
-
         print("Nenhum PDF encontrado.")
-
+        
         registrar_info("Nenhum PDF encontrado.")
-        registrar_info(SEPARADOR)
+
+        finalizar_log()
 
         return
 
@@ -184,8 +183,7 @@ def main():
 
     registrar_info(resumo)
 
-    registrar_info(f"{APP_NOME} finalizado.")
-    registrar_info(SEPARADOR)
+    finalizar_log()
 
 
 if __name__ == "__main__":
