@@ -11,6 +11,7 @@
 <p align="center">
   🇧🇷 <a href="README.pt-BR.md">Português</a>
 </p>
+
 ---
 
 ## About
@@ -21,6 +22,8 @@ Instead of relying only on existing filenames, AutoRename analyzes document cont
 
 Originally created to solve real-world document workflows, the project focuses on simplicity, reliability, and efficiency.
 
+The first public release focuses on automated PDF bill renaming, laying the foundation for future extensibility through configurable extraction rules.
+
 ## ✨ Features
 
 - 📄 Intelligent document-based renaming
@@ -30,6 +33,8 @@ Originally created to solve real-world document workflows, the project focuses o
 - ⚙️ Configurable behavior
 - 💻 Windows and Linux support
 - 📦 Standalone executables
+- 🔍 PDF content extraction using pdfplumber
+- 📁 Automatic file naming based on extracted data
 ---
 
 ## 📸 Screenshots
@@ -61,6 +66,7 @@ pip install -r requirements.txt
 
 python src/main.py
 ```
+Before running the application, edit the `config.ini` file and configure the folder containing your PDF documents.
 
 ---
 
