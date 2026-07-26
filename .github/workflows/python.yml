@@ -29,6 +29,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install PyInstaller
+        run: |
+          pip install pyinstaller
+
       - name: Check Python syntax
         run: |
           python -m compileall src
