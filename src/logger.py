@@ -11,6 +11,8 @@ Ano    : 2026
 
 import logging
 
+from datetime import datetime
+
 from config import (
     PASTA_LOGS,
     LOG_FILE,
@@ -19,6 +21,7 @@ from config import (
 
 logging.basicConfig(
     filename=LOG_FILE,
+    filemode="w",
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
     datefmt="%d/%m/%Y %H:%M:%S",
@@ -27,6 +30,47 @@ logging.basicConfig(
 
 logger = logging.getLogger("AutoRename")
 
+# ======================================================
+# Inicialização do Log
+# ======================================================
+
+def iniciar_log():
+
+    logger.info("=" * 60)
+    logger.info("AutoRename Phoenix")
+    logger.info("Versão.....: 1.0.0")
+    logger.info(
+        f"Iniciado em: {datetime.now():%d/%m/%Y %H:%M:%S}"
+    )
+    logger.info("=" * 60)
+    logger.info("")
+
+
+def finalizar_log():
+
+    logger.info("")
+    logger.info("=" * 60)
+    logger.info("Fim da execução")
+    logger.info("=" * 60)
+
+# ======================================================
+# Funções de DEBUG
+# ======================================================
+
+def debug(texto):
+
+    if DEBUG:
+        logger.info(texto)
+
+
+def debug_secao(titulo):
+
+    if DEBUG:
+
+        logger.info("")
+        logger.info("-" * 60)
+        logger.info(titulo)
+        logger.info("-" * 60)
 
 # ======================================================
 # Compatibilidade
@@ -102,14 +146,4 @@ def registrar_processamento(
 
     logger.info("=" * 60)
 
-    #
-    # Informações extras para DEBUG
-    #
 
-    if DEBUG:
-
-        logger.info(
-            "DEBUG.......: Processamento concluído."
-        )
-
-        logger.info("")
