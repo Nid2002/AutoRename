@@ -43,6 +43,6 @@ jobs:
 
       - name: Upload executable
         uses: actions/upload-artifact@v4
-          with:
-            name: AutoRename-Linux
-            path: dist/
+        with:
+          name: AutoRename-Linux
+          path: dist/
