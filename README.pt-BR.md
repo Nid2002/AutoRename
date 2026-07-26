@@ -16,39 +16,53 @@
 
 ## Sobre
 
-O AutoRename é uma ferramenta multiplataforma desenvolvida para automatizar tarefas repetitivas de renomeação de arquivos por meio da extração de informações diretamente de documentos.
+O AutoRename é uma ferramenta multiplataforma desenvolvida para automatizar tarefas repetitivas de renomeação de arquivos, extraindo informações diretamente do conteúdo dos documentos.
 
-Em vez de depender apenas dos nomes atuais dos arquivos, o AutoRename analisa o conteúdo dos documentos para gerar nomes consistentes e significativos, reduzindo o trabalho manual e minimizando erros.
+Em vez de depender apenas do nome original do arquivo, o AutoRename analisa o conteúdo do documento para gerar nomes de arquivos consistentes e significativos, reduzindo o trabalho manual e minimizando erros.
 
-Criado originalmente para solucionar fluxos de trabalho reais envolvendo documentos, o projeto tem como foco simplicidade, confiabilidade e eficiência.
+Criado originalmente para resolver fluxos reais de processamento de documentos, o projeto prioriza simplicidade, confiabilidade e eficiência.
 
-## ✨ Recursos
-
-- 📄 Renomeação inteligente baseada no conteúdo dos documentos
-- ⚡ Processamento rápido em lote
-- 🛡️ Modo Dry Run para testes seguros
-- 📝 Logs detalhados de execução
-- ⚙️ Comportamento configurável
-- 💻 Suporte para Windows e Linux
-- 📦 Executáveis independentes
+A primeira versão pública é focada na renomeação automática de boletos em PDF, servindo como base para futuras expansões através de regras de extração configuráveis.
 
 ---
 
-## 📸 Capturas de Tela
+## ✨ Recursos
 
-As capturas de tela foram omitidas intencionalmente, pois a aplicação é utilizada atualmente com documentos reais e confidenciais.
+- 📄 Renomeação inteligente baseada no conteúdo do documento
+- 🔍 Extração de informações de PDFs utilizando **pdfplumber**
+- 📁 Geração automática de nomes de arquivos
+- ⚡ Processamento rápido em lote
+- 🛡️ Modo **Dry Run** para testes seguros
+- 📝 Logs detalhados de execução
+- ⚙️ Comportamento configurável através do `config.ini`
+- 💻 Compatível com Windows e Linux
+- 📦 Executáveis independentes (standalone)
 
-Um conjunto de dados de demonstração e imagens públicas poderá ser adicionado em versões futuras.
+---
+
+## 📸 Capturas de tela
+
+<p align="center">
+<i>
+
+As capturas de tela foram intencionalmente omitidas, pois a aplicação atualmente é utilizada com documentos reais e confidenciais.
+
+Um conjunto de dados de demonstração e capturas públicas poderão ser adicionados em versões futuras.
+
+</i>
+</p>
 
 ---
 
 ## 🚀 Instalação
 
-### Download
+### Baixar o Executável
 
-Baixe o executável mais recente na página de **Releases**.
+Baixe a versão mais recente na página de **Releases**.
 
-### Executar pelo Código-Fonte
+### Executar a partir do código-fonte
+
+Antes de executar a aplicação, edite o arquivo `config.ini` e configure a pasta que contém seus documentos PDF.
 
 ```bash
 git clone https://github.com/Nid2002/AutoRename.git
@@ -59,21 +73,20 @@ pip install -r requirements.txt
 
 python src/main.py
 ```
+
 ---
 
-## 🛠️ Compilar a partir do Código-Fonte
+## 🛠️ Compilar a partir do código-fonte
 
-O AutoRename utiliza o **PyInstaller** para gerar executáveis independentes.
+O AutoRename utiliza **PyInstaller** para gerar executáveis independentes.
+
+O executável será criado dentro da pasta `dist/`.
 
 ```bash
 pyinstaller AutoRename.spec
 ```
 
-Após a compilação, o executável será gerado na pasta:
-
-```text
-dist/
-```
+---
 
 ## 🤝 Contribuindo
 
@@ -81,9 +94,12 @@ Contribuições, sugestões, relatos de bugs e solicitações de novas funcional
 
 Sinta-se à vontade para abrir uma *Issue* ou enviar um *Pull Request*.
 
+Se tiver ideias para melhorar o projeto, ficarei feliz em recebê-las.
+
 ---
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+Este projeto está licenciado sob a licença MIT.
 
+Consulte o arquivo **LICENSE** para mais detalhes.
