@@ -20,8 +20,6 @@ from extractor import (
 
 from renamer import Renamer
 
-from validator import arquivo_ja_renomeado
-
 from logger import (
     iniciar_log,
     finalizar_log,
@@ -42,12 +40,6 @@ def processar_pdf(pdf):
     """
     Processa um único PDF.
     """
-
-    if arquivo_ja_renomeado(pdf.name):
-
-        registrar_ignorado(pdf.name)
-
-        return ResultadoProcessamento.IGNORADO
 
     boleto = None
 
