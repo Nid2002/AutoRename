@@ -253,6 +253,44 @@ def _interpretar_tokens_unidade(contexto):
     )
 
     return bloco, unidade
+
+def normalizar_nome_condominio(nome):
+    """
+    Remove informações que não fazem parte do nome do condomínio.
+    """
+
+    nome = nome.strip()
+
+    #
+    # Remove número isolado no início
+    #
+
+    nome = re.sub(r"^\d+\s+", "", nome)
+
+    #
+    # Remove número isolado no final (ex.: número da página)
+    #
+
+    nome = re.sub(r"\s+\d+$", "", nome)
+
+    #
+    # Remove tudo após "ID:"
+    #
+
+    nome = re.sub(
+        r"\s+ID:.*$",
+        "",
+        nome,
+        flags=re.IGNORECASE,
+    )
+
+    #
+    # Normaliza espaços
+    #
+
+    nome = " ".join(nome.split())
+
+    return nome
 # ======================================================
 # CONDOMÍNIO
 # ======================================================
@@ -260,6 +298,10 @@ def _interpretar_tokens_unidade(contexto):
 def detectar_condominio(linha):
 
     linha_maiuscula = linha.upper()
+
+    #
+    # Primeira tentativa
+    #
 
     for prefixo in PREFIXOS_CONDOMINIO:
 
@@ -275,6 +317,31 @@ def detectar_condominio(linha):
             debug(f"Resultado......: {condominio}")
 
             return condominio
+
+    #
+    # Segunda tentativa
+    #
+
+    match = re.search(
+        r"SACADOR/AVALISTA:\s*(.+)",
+        linha,
+        flags=re.IGNORECASE,
+    )
+
+    if match:
+
+        debug_secao("Condomínio")
+
+        debug(f"Linha..........: {linha}")
+        debug("Origem.........: SACADOR/AVALISTA")
+
+        condominio = limpar_nome_condominio(
+            match.group(1)
+        )
+
+        debug(f"Resultado......: {condominio}")
+
+        return condominio
 
     return None
 
@@ -297,6 +364,8 @@ def limpar_nome_condominio(nome):
         )
 
     nome = " ".join(nome.split()).strip()
+
+    nome = normalizar_nome_condominio(nome)
 
     debug(f"Após limpeza...: {nome}")
 
