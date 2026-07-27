@@ -22,10 +22,20 @@ class Renamer:
         caminho_pdf = Path(caminho_pdf)
 
         novo_caminho = caminho_pdf.with_name(
-            boleto.nome_arquivo
+                boleto.nome_arquivo
         )
 
         debug(f"Nome gerado.....: {novo_caminho.name}")
+
+#
+# Arquivo já possui o nome esperado
+#
+
+        if caminho_pdf.name == novo_caminho.name:
+
+            debug("Arquivo já está atualizado.")
+
+            return caminho_pdf
 
         if DRY_RUN:
 
