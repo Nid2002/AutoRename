@@ -5,7 +5,7 @@ from pathlib import Path
 # ==========================================================
 
 APP_NOME = "AutoRename"
-APP_VERSAO = "1.0.0"
+APP_VERSAO = "1.0.1"
 APP_RELEASE = "Phoenix"
 
 # ==========================================================

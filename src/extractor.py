@@ -124,8 +124,6 @@ def extrair_dados(texto):
 
     debug(f"✓ Tipo documento.....: {dados.tipo_documento}")
 
-    
-
     #
     # VENCIMENTO
     #
@@ -331,9 +329,7 @@ def normalizar_condominio(nome):
 
     nome = nome.replace("*", "")
 
-    nome = " ".join(nome.split())
-
-    return nome.strip()
+    return " ".join(nome.split())
 
 def detectar_condominio(linha):
 
