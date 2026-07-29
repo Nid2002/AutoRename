@@ -514,6 +514,49 @@ def detectar_tipo_documento(texto):
 
     debug_secao("Tipo do Documento")
 
+    #
+    # NOVA VIA DE ACORDO
+    #
+
+    resultado = re.search(
+        r"Final\s+da\s+Parcela\s+de\s+acordo\s+de\s+\d{2}/\d{2}/\d{4}",
+        texto,
+        flags=re.IGNORECASE,
+    )
+
+    if resultado:
+
+        debug("Origem.........: Final da Parcela de Acordo")
+        debug("Resultado......: NV - AC")
+
+        return "NV - AC"
+
+    #
+    # ACORDO
+    #
+
+    resultado = re.search(
+        r"PARCELA\s+(\d+)\s+DE\s+(\d+)",
+        texto,
+        flags=re.IGNORECASE,
+    )
+
+    if resultado:
+
+        parcela = int(resultado.group(1))
+        total = int(resultado.group(2))
+
+        tipo = f"AC {parcela}-{total}"
+
+        debug("Origem.........: Parcela de Acordo")
+        debug(f"Resultado......: {tipo}")
+
+        return tipo
+
+    #
+    # NOVA VIA DE TAXA
+    #
+
     resultado = re.search(
         r"Final\s+da\s+Taxa\s+de\s+(\d{2})/(\d{2})/\d{4}",
         texto,
@@ -532,6 +575,14 @@ def detectar_tipo_documento(texto):
 
         return tipo
 
+    #
+    # PADRÃO
+    #
+
+    debug("Origem.........: Padrão")
+    debug("Resultado......: 2° VIA")
+
+    return "2° VIA"
     debug("Origem.........: Padrão")
     debug("Resultado......: 2° VIA")
 
