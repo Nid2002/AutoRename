@@ -432,6 +432,10 @@ def detectar_vencimento(texto):
 
     debug_secao("Vencimento")
 
+    #
+    # Primeira tentativa
+    #
+
     resultado = re.search(
         r"Vencimento\s*(\d{2}/\d{2}/\d{4})",
         texto,
@@ -442,6 +446,26 @@ def detectar_vencimento(texto):
 
         data = resultado.group(1).replace("/", ".")
 
+        debug("Origem.........: Vencimento imediato")
+        debug(f"Data...........: {data}")
+
+        return data
+
+    #
+    # Segunda tentativa
+    #
+
+    resultado = re.search(
+        r"Vencimento.*?(\d{2}/\d{2}/\d{4})",
+        texto,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    if resultado:
+
+        data = resultado.group(1).replace("/", ".")
+
+        debug("Origem.........: Vencimento (fallback)")
         debug(f"Data...........: {data}")
 
         return data
