@@ -1,4 +1,12 @@
 from dataclasses import dataclass
+import re
+
+
+def sanitizar_nome_arquivo(nome: str) -> str:
+
+    nome = re.sub(r'[<>:"/\\|?*]', "", nome)
+
+    return " ".join(nome.split())
 
 
 @dataclass
@@ -37,8 +45,10 @@ class Boleto:
 
         partes.append(self.unidade)
         partes.append(self.vencimento)
-        
-        return " - ".join(partes) + ".pdf"
+
+        nome = " - ".join(partes) + ".pdf"
+
+        return sanitizar_nome_arquivo(nome)
 
     def __str__(self):
 
@@ -51,7 +61,7 @@ class Boleto:
 
         partes.append(f"unidade='{self.unidade}'")
         partes.append(f"vencimento='{self.vencimento}'")
-        
+
         if self.tipo_documento:
             partes.append(f"tipo_documento='{self.tipo_documento}'")
 

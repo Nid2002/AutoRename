@@ -384,21 +384,22 @@ def normalizar_condominio(nome):
 
 def remover_sufixos_condominio(nome):
 
+    nome_maiusculo = nome.upper()
+
     marcadores = [
         " - AP ",
         " AP ",
-        "Agência/Código",
-        "Agência",
-        "Vencimento",
+        "AGÊNCIA/CÓDIGO",
+        "AGÊNCIA",
+        "VENCIMENTO",
     ]
 
     for marcador in marcadores:
 
-        pos = nome.find(marcador)
+        pos = nome_maiusculo.find(marcador)
 
         if pos != -1:
-            nome = nome[:pos]
-            break
+            return nome[:pos].strip()
 
     return nome.strip()
 
@@ -434,6 +435,8 @@ def limpar_nome_condominio(nome):
             break
 
     nome = " ".join(nome.split()).strip()
+
+    nome = remover_sufixos_condominio(nome)
 
     nome = normalizar_nome_condominio(nome)
 
