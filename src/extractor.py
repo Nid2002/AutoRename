@@ -1,4 +1,4 @@
-# extractor.py
+# extracto.py
 
 import re
 import pdfplumber
@@ -327,6 +327,13 @@ def normalizar_nome_condominio(nome):
 # ======================================================
 # CONDOMÍNIO
 # ======================================================
+def normalizar_condominio(nome):
+
+    nome = nome.replace("*", "")
+
+    nome = " ".join(nome.split())
+
+    return nome.strip()
 
 def detectar_condominio(linha):
 
@@ -378,23 +385,38 @@ def detectar_condominio(linha):
 
     return None
 
+#====================================================
 
 def limpar_nome_condominio(nome):
 
-    nome_original = nome
+    nome = normalizar_condominio(nome)
 
     #
-    # Remove prefixos
+    # Remove todos os prefixos conhecidos
     #
 
-    for prefixo in PREFIXOS_CONDOMINIO:
+    while True:
 
-        nome = re.sub(
-            rf"^{re.escape(prefixo)}\s*",
-            "",
-            nome,
-            flags=re.IGNORECASE,
-        )
+        alterado = False
+
+        for prefixo in PREFIXOS_CONDOMINIO:
+
+            novo_nome = re.sub(
+                rf"^{re.escape(prefixo)}\s*",
+                "",
+                nome,
+                flags=re.IGNORECASE,
+            )
+
+            if novo_nome != nome:
+
+                debug(f"Removido........: {prefixo}")
+
+                nome = novo_nome
+                alterado = True
+
+        if not alterado:
+            break
 
     nome = " ".join(nome.split()).strip()
 
@@ -419,7 +441,6 @@ def limpar_nome_condominio(nome):
     debug("Alias..........: Nenhum")
 
     return nome
-
 
 # ======================================================
 # BLOCO / UNIDADE
@@ -579,10 +600,6 @@ def detectar_tipo_documento(texto):
     # PADRÃO
     #
 
-    debug("Origem.........: Padrão")
-    debug("Resultado......: 2° VIA")
-
-    return "2° VIA"
     debug("Origem.........: Padrão")
     debug("Resultado......: 2° VIA")
 
