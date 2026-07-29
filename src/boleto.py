@@ -8,6 +8,7 @@ class Boleto:
     bloco: str | None = None
     unidade: str | None = None
     vencimento: str | None = None
+    tipo_documento: str | None = None
 
     @property
     def completo(self):
@@ -24,14 +25,19 @@ class Boleto:
         if not self.completo:
             return None
 
-        partes = [self.condominio]
+        partes = []
+
+        if self.tipo_documento:
+            partes.append(self.tipo_documento)
+
+        partes.append(self.condominio)
 
         if self.bloco:
             partes.append(self.bloco)
 
         partes.append(self.unidade)
         partes.append(self.vencimento)
-
+        
         return " - ".join(partes) + ".pdf"
 
     def __str__(self):
@@ -45,5 +51,8 @@ class Boleto:
 
         partes.append(f"unidade='{self.unidade}'")
         partes.append(f"vencimento='{self.vencimento}'")
+        
+        if self.tipo_documento:
+            partes.append(f"tipo_documento='{self.tipo_documento}'")
 
         return "Boleto(" + ", ".join(partes) + ")"

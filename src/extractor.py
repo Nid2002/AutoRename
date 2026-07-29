@@ -117,6 +117,16 @@ def extrair_dados(texto):
             break
 
     #
+    # Tipo do documento
+    #
+
+    dados.tipo_documento = detectar_tipo_documento(texto)
+
+    debug(f"✓ Tipo documento.....: {dados.tipo_documento}")
+
+    
+
+    #
     # VENCIMENTO
     #
 
@@ -136,6 +146,7 @@ def extrair_dados(texto):
 
     debug_secao("Resumo da Extração")
 
+    debug(f"Tipo Documento.: {dados.tipo_documento}")
     debug(f"Condomínio.....: {dados.condominio or '-'}")
     debug(f"Bloco..........: {dados.bloco or '-'}")
     debug(f"Unidade........: {dados.unidade or '-'}")
@@ -145,6 +156,7 @@ def extrair_dados(texto):
         debug(f"Nome Final.....: {dados.nome_arquivo}")
 
     return dados
+
 # ======================================================
 # FUNÇÕES AUXILIARES
 # ======================================================
@@ -475,7 +487,6 @@ def detectar_vencimento(texto):
     #
     # Segunda tentativa
     #
-
     resultado = re.search(
         r"Vencimento.*?(\d{2}/\d{2}/\d{4})",
         texto,
@@ -494,3 +505,34 @@ def detectar_vencimento(texto):
     debug("Resultado......: Não encontrado")
 
     return None
+
+#===========================
+# Detectar tipo de documento
+#===========================
+
+def detectar_tipo_documento(texto):
+
+    debug_secao("Tipo do Documento")
+
+    resultado = re.search(
+        r"Final\s+da\s+Taxa\s+de\s+(\d{2})/(\d{2})/\d{4}",
+        texto,
+        flags=re.IGNORECASE,
+    )
+
+    if resultado:
+
+        dia = resultado.group(1)
+        mes = resultado.group(2)
+
+        tipo = f"NV TAXA {dia}.{mes}"
+
+        debug("Origem.........: Final da Taxa")
+        debug(f"Resultado......: {tipo}")
+
+        return tipo
+
+    debug("Origem.........: Padrão")
+    debug("Resultado......: 2° VIA")
+
+    return "2° VIA"
