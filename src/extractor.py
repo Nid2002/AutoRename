@@ -223,6 +223,27 @@ def _interpretar_bloco(antes, depois, indice_unidade):
     if not bloco_tokens:
         return None
 
+#
+# Um único número antes da unidade
+# representa o bloco.
+#
+    if len(bloco_tokens) == 1:
+
+        if bloco_tokens[0].isdigit():
+            return bloco_tokens[0]
+        
+        if _token_eh_bloco(bloco_tokens[0]):
+            return bloco_tokens[0]
+
+        return None
+#
+# Múltiplos tokens somente são aceitos
+# quando iniciam com um identificador
+# de bloco.
+#
+    if not _token_eh_bloco(bloco_tokens[0]):
+        return None
+
     bloco = " ".join(bloco_tokens).strip()
 
     return bloco
