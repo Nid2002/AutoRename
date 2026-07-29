@@ -325,11 +325,6 @@ def normalizar_nome_condominio(nome):
 # ======================================================
 # CONDOMÍNIO
 # ======================================================
-def normalizar_condominio(nome):
-
-    nome = nome.replace("*", "")
-
-    return " ".join(nome.split())
 
 def detectar_condominio(linha):
 
@@ -381,7 +376,31 @@ def detectar_condominio(linha):
 
     return None
 
-#====================================================
+def normalizar_condominio(nome):
+
+    nome = nome.replace("*", "")
+
+    return " ".join(nome.split())
+
+def remover_sufixos_condominio(nome):
+
+    marcadores = [
+        " - AP ",
+        " AP ",
+        "Agência/Código",
+        "Agência",
+        "Vencimento",
+    ]
+
+    for marcador in marcadores:
+
+        pos = nome.find(marcador)
+
+        if pos != -1:
+            nome = nome[:pos]
+            break
+
+    return nome.strip()
 
 def limpar_nome_condominio(nome):
 
