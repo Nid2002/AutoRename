@@ -6,7 +6,7 @@ The format is inspired by *Keep a Changelog*, and this project follows Semantic 
 
 ---
 
-# [1.0.1] - 2026-07-29
+# [1.0.1] - 2026-07-31
 
 ## 🇧🇷 Português
 
@@ -21,12 +21,16 @@ The format is inspired by *Keep a Changelog*, and this project follows Semantic 
 
 - Refatoração completa da normalização do nome do condomínio.
 - Remoção sucessiva de prefixos como `CONDOMINIO`, `COND.`, `RES.` e similares.
+- Sanitização do nome dos arquivos gerados para maior compatibilidade com o Windows.
+- Suporte para blocos identificados por uma única letra (ex.: `A`, `B`, `C`).
 - Melhor organização interna do código.
 - Logs de depuração mais detalhados para facilitar manutenção e diagnóstico.
 
 ## 🛠 Correções
 
 - Aprimorada a identificação de blocos e unidades em diferentes layouts.
+- Adicionado um mecanismo de fallback para localizar o bloco quando não identificado na leitura principal.
+- Preservado o formato original de blocos alfanuméricos (ex.: `06-CO`) no nome do arquivo.
 - Melhor compatibilidade com diferentes modelos de boletos em PDF.
 
 ---
@@ -44,12 +48,16 @@ The format is inspired by *Keep a Changelog*, and this project follows Semantic 
 
 - Refactored condominium name normalization.
 - Improved sequential removal of condominium prefixes (`CONDOMINIO`, `COND.`, `RES.`, etc.).
+- Sanitized generated filenames for better Windows compatibility.
+- Added support for single-letter block identifiers (e.g. `A`, `B`, `C`).
 - Better internal code organization.
-- Enhanced debug logging during condominium detection.
+- Enhanced debug logging for easier maintenance and troubleshooting.
 
 ## 🛠 Fixes
 
 - Improved block and unit detection across different payment slip layouts.
+- Added a fallback mechanism to recover block information when not found during the primary extraction.
+- Preserved the original formatting of alphanumeric block identifiers (e.g. `06-CO`) in generated filenames.
 - Better compatibility with multiple PDF formats.
 
 ========================
