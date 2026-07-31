@@ -4,9 +4,7 @@ import re
 
 def sanitizar_nome_arquivo(nome: str) -> str:
 
-    nome = re.sub(r'[<>:"/\\|?*]', "", nome)
-
-    nome = re.sub(r"\s*-\s*", " - ", nome)
+    nome = re.sub(r'[<>:"/\\|?*]', "", nome) 
 
     nome = " ".join(nome.split())
 

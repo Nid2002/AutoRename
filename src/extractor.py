@@ -116,6 +116,24 @@ def extrair_dados(texto):
         if dados.condominio and dados.unidade:
             break
 
+
+#
+# Fallback para bloco
+#
+
+    if dados.unidade and dados.bloco is None:
+
+        bloco = detectar_bloco_fallback(
+                texto,
+                dados.unidade,
+    )
+
+    if bloco:
+
+        dados.bloco = bloco
+
+        debug(f"✓ Bloco encontrado (fallback): {bloco}")
+
     #
     # Tipo do documento
     #
@@ -503,6 +521,42 @@ def detectar_unidade(linha):
         debug(f"Unidade........: {unidade}")
 
         return bloco, unidade
+
+    return None
+
+def detectar_bloco_fallback(texto, unidade):
+    """
+    Tenta localizar o bloco utilizando o texto completo do boleto.
+
+    Exemplo:
+        VILA ROMANA - 06-CO - AP 103
+    """
+
+    debug_secao("Bloco (Fallback)")
+
+    padroes = [
+        rf"-\s*([A-Z0-9-]+)\s*-\s*AP\s*{re.escape(unidade)}\b",
+        rf"-\s*([A-Z0-9-]+)\s*-\s*APARTAMENTO\s*{re.escape(unidade)}\b",
+    ]
+
+    for padrao in padroes:
+
+        resultado = re.search(
+            padrao,
+            texto,
+            flags=re.IGNORECASE,
+        )
+
+        if resultado:
+
+            bloco = resultado.group(1).strip().upper()
+
+            debug(f"Origem.........: Texto completo")
+            debug(f"Bloco..........: {bloco}")
+
+            return bloco
+
+    debug("Resultado......: Não encontrado")
 
     return None
 
